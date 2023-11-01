@@ -43,6 +43,17 @@ class DishesController {
       message: "Dish deleted successfully",
     });
   }
+
+  async show(request, response) {
+    const { id } = request.params;
+    const dish = await knex("dishes").where({ id }).first();
+    const ingredient = await knex("ingredients").where({ dishes_id: id });
+
+    return response.json({
+      ...dish,
+      ingredient,
+    });
+  }
 }
 
 module.exports = DishesController;

@@ -6,8 +6,6 @@ class DishesController {
     const { name, category, price, description, ingredients } = request.body;
     const { user_id } = request.params;
 
-    console.log(ingredients);
-
     const checkDishesExists = await knex("dishes").where({ name }).first();
 
     if (checkDishesExists) {
@@ -30,11 +28,20 @@ class DishesController {
       };
     });
 
-    console.log(createIngredients);
-
     await knex("ingredients").insert(createIngredients);
 
     return response.json("Prato criado com sucesso");
+  }
+
+  async delete(request, response) {
+    const { id } = request.params;
+
+    await knex("dishes").where({ id }).delete();
+
+    return response.status(200).json({
+      status: "Success",
+      message: "Dish deleted successfully",
+    });
   }
 }
 

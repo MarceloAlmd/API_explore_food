@@ -5,7 +5,12 @@ exports.up = (knex) =>
     table.text("name").notNullable();
     table.text("image");
 
-    table.integer("dishes_id").references("id").inTable("dishes");
+    table
+      .integer("dishes_id")
+      .references("id")
+      .inTable("dishes")
+      .onDelete("CASCADE");
+    table.integer("user_id").references("id").inTable("users");
 
     table.timestamp("created_at").default(knex.fn.now());
     table.timestamp("updated_at").default(knex.fn.now());

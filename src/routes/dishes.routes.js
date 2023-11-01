@@ -1,6 +1,5 @@
 const { Router } = require("express");
 const DishesControllers = require("../controllers/dishesControllers");
-
 const dishesRoutes = Router();
 const dishesControllers = new DishesControllers();
 

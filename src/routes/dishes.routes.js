@@ -8,6 +8,7 @@ const dishesFavoritesController = new DishesFavoritesController();
 dishesRoutes.post("/:user_id", dishesControllers.create);
 dishesRoutes.delete("/:id", dishesControllers.delete);
 dishesRoutes.get("/:id", dishesControllers.show);
+dishesRoutes.get("/", dishesControllers.index);
 
 dishesRoutes.get("/favorites/:user_id", dishesFavoritesController.favorites);
 dishesRoutes.patch("/favorites/:id", dishesFavoritesController.updateFavorites);

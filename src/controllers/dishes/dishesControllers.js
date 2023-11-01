@@ -54,6 +54,18 @@ class DishesController {
       ingredient,
     });
   }
+
+  async index(request, response) {
+    const { user_id, name } = request.query;
+
+    const dishes = await knex("dishes")
+      .where({ user_id })
+      .whereLike("name", `%${name}%`);
+
+    return response.json(dishes);
+  }
+
+  async update(request, response) {}
 }
 
 module.exports = DishesController;

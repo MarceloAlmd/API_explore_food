@@ -65,7 +65,44 @@ class DishesController {
     return response.json(dishes);
   }
 
-  async update(request, response) {}
+  async update(request, response) {
+    const { name, category, price, description, ingredients } = request.body;
+    const { id } = request.params;
+
+    const dishUpdated = await knex("dishes").where({ id }).first();
+
+    if (!dishUpdated) {
+      throw new AppError("this dish does not exist");
+    }
+
+    const dishedUpdatedExists = await knex("dishes").where({ name }).first();
+
+    if (dishedUpdatedExists && dishedUpdatedExists.id !== dishUpdated.id) {
+      throw new AppError("This dish is already registered");
+    }
+
+    await knex("dishes").where({ id }).update({
+      name,
+      category,
+      price,
+      description,
+    });
+
+    const ingredientsUpdated = ingredients.map((ingredient) => {
+      return {
+        dishes_id: id,
+        name: ingredient,
+      };
+    });
+
+    await knex("ingredients").where({ dishes_id: id }).delete();
+
+    await knex("ingredients")
+      .where({ dishes_id: id })
+      .insert(ingredientsUpdated);
+
+    return response.json();
+  }
 }
 
 module.exports = DishesController;

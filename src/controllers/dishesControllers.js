@@ -1,10 +1,18 @@
 const knex = require("../database/knex");
 const AppError = require("../utils/appError");
+const DiskStorage = require("../providers/diskStorage");
+const uploadConfig = require("../configs/uploads");
 
 class DishesController {
   async create(request, response) {
     const { name, category, price, description, ingredients } = request.body;
     const { user_id } = request.params;
+
+    const dishImg = request.file.filename;
+
+    const diskStorage = new DiskStorage();
+
+    await diskStorage.save(dishImg, uploadConfig.DISHES);
 
     const newIngredients = ingredients
       .split(",")
@@ -22,6 +30,7 @@ class DishesController {
       price,
       description,
       user_id,
+      image: dishImg,
     });
 
     const createIngredients = newIngredients.map((ingredient) => {

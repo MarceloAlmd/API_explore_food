@@ -27,7 +27,7 @@ class DishesController {
     const [dishes_id] = await knex("dishes").insert({
       name,
       category,
-      price: Number(price),
+      price,
       description,
       user_id,
       image: dishImg,
@@ -87,29 +87,28 @@ class DishesController {
 
     const { id } = request.params;
 
-    const diskStorage = new DiskStorage();
-
-    const transformIngredients = ingredients
-      .split(",")
-      .map((ingredient) => ingredient.trim());
-
     const dish = await knex("dishes").where({ id }).first();
 
     if (!dish) {
       throw new AppError("this dish does not exist");
     }
-
-    const dishedUpdatedExists = await knex("dishes").where({ name }).first();
-
-    if (dishedUpdatedExists && dishedUpdatedExists.id !== dish.id) {
-      throw new AppError("This dish is already registered");
-    }
+    const diskStorage = new DiskStorage();
 
     if (dish.image) {
       await diskStorage.delete(dish.image, uploadConfig.DISHES);
     }
 
     await diskStorage.save(updateDishImg, uploadConfig.DISHES);
+
+    const transformIngredients = ingredients
+      .split(",")
+      .map((ingredient) => ingredient.trim());
+
+    const dishedUpdatedExists = await knex("dishes").where({ name }).first();
+
+    if (dishedUpdatedExists && dishedUpdatedExists.id !== dish.id) {
+      throw new AppError("This dish is already registered");
+    }
 
     dish.image = updateDishImg ?? dish.image;
     dish.name = name ?? dish.name;

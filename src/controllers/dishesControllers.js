@@ -27,7 +27,7 @@ class DishesController {
     const [dishes_id] = await knex("dishes").insert({
       name,
       category,
-      price,
+      price: Number(price),
       description,
       user_id,
       image: dishImg,
@@ -83,31 +83,54 @@ class DishesController {
 
   async update(request, response) {
     const { name, category, price, description, ingredients } = request.body;
+    const updateDishImg = request.file.filename;
+
     const { id } = request.params;
 
-    const dishUpdated = await knex("dishes").where({ id }).first();
+    const diskStorage = new DiskStorage();
 
-    if (!dishUpdated) {
+    const transformIngredients = ingredients
+      .split(",")
+      .map((ingredient) => ingredient.trim());
+
+    const dish = await knex("dishes").where({ id }).first();
+
+    if (!dish) {
       throw new AppError("this dish does not exist");
     }
 
     const dishedUpdatedExists = await knex("dishes").where({ name }).first();
 
-    if (dishedUpdatedExists && dishedUpdatedExists.id !== dishUpdated.id) {
+    if (dishedUpdatedExists && dishedUpdatedExists.id !== dish.id) {
       throw new AppError("This dish is already registered");
     }
+
+    if (dish.image) {
+      await diskStorage.delete(dish.image, uploadConfig.DISHES);
+    }
+
+    await diskStorage.save(updateDishImg, uploadConfig.DISHES);
+
+    dish.image = updateDishImg ?? dish.image;
+    dish.name = name ?? dish.name;
+    dish.category = category ?? dish.category;
+    dish.price = Number(price) ?? dish.price;
+    dish.description = description ?? dish.description;
 
     await knex("dishes").where({ id }).update({
       name,
       category,
       price,
       description,
+      image: updateDishImg,
+      updated_at: knex.fn.now(),
     });
 
-    const ingredientsUpdated = ingredients.map((ingredient) => {
+    const ingredientsUpdated = transformIngredients.map((ingredient) => {
       return {
         dishes_id: id,
         name: ingredient,
+        user_id: dish.user_id,
       };
     });
 
@@ -117,7 +140,7 @@ class DishesController {
       .where({ dishes_id: id })
       .insert(ingredientsUpdated);
 
-    return response.json();
+    return response.json(dish);
   }
 }
 

@@ -1,10 +1,14 @@
-const knex = require("../../database/knex");
-const AppError = require("../../utils/appError");
+const knex = require("../database/knex");
+const AppError = require("../utils/appError");
 
 class DishesController {
   async create(request, response) {
     const { name, category, price, description, ingredients } = request.body;
     const { user_id } = request.params;
+
+    const newIngredients = ingredients
+      .split(",")
+      .map((ingredient) => ingredient.trim());
 
     const checkDishesExists = await knex("dishes").where({ name }).first();
 
@@ -20,7 +24,7 @@ class DishesController {
       user_id,
     });
 
-    const createIngredients = ingredients.map((ingredient) => {
+    const createIngredients = newIngredients.map((ingredient) => {
       return {
         name: ingredient,
         dishes_id,
@@ -30,7 +34,10 @@ class DishesController {
 
     await knex("ingredients").insert(createIngredients);
 
-    return response.json("Prato criado com sucesso");
+    return response.status(201).json({
+      status: "success",
+      message: "success when creating a dish",
+    });
   }
 
   async delete(request, response) {

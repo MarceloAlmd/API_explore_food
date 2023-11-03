@@ -1,8 +1,8 @@
-const knex = require("../../database/knex");
-const AppError = require("../../utils/appError");
+const knex = require("../database/knex");
+const AppError = require("../utils/appError");
 
-class DishesFavoritesController {
-  async updateFavorites(request, response) {
+class FavoritesController {
+  async update(request, response) {
     const { isFavorite } = request.body;
     const { id } = request.params;
 
@@ -19,9 +19,8 @@ class DishesFavoritesController {
     return response.json(dish);
   }
 
-  async favorites(request, response) {
-    const { user_id } = request.params;
-    const dishes = await knex("dishes").where({ user_id });
+  async index(request, response) {
+    const dishes = await knex("dishes");
 
     const dishesFavorites = dishes.filter((dish) => dish.isFavorite === 1);
 
@@ -29,4 +28,4 @@ class DishesFavoritesController {
   }
 }
 
-module.exports = DishesFavoritesController;
+module.exports = FavoritesController;

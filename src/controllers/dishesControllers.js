@@ -53,6 +53,7 @@ class DishesController {
     const { id } = request.params;
 
     const dish = await knex("dishes").where({ id }).first();
+    const ingredients = await knex("ingredients").where({ dishes_id: id });
 
     if (!dish) {
       throw new AppError("Dish not found");
@@ -62,6 +63,12 @@ class DishesController {
 
     if (dish.image) {
       await diskStorage.delete(dish.image, uploadConfig.DISHES);
+    }
+
+    for (const ingredient of ingredients) {
+      if (ingredient.image) {
+        await diskStorage.delete(ingredient.image, uploadConfig.INGREDIENTS);
+      }
     }
 
     await knex("dishes").where({ id }).delete();

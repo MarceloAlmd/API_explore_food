@@ -18,6 +18,24 @@ class OrdersController {
       details: detailing,
     });
   }
+
+  async update(request, response) {
+    const { status } = request.body;
+    const { id } = request.params;
+
+    const order = await knex("order").where({ id });
+
+    order.status = status ?? order.status;
+
+    await knex("order").where({ id }).update({
+      status,
+      updated_at: knex.fn.now(),
+    });
+
+    return response.json({
+      message: "Status updated",
+    });
+  }
 }
 
 module.exports = OrdersController;

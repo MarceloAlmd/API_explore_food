@@ -12,31 +12,36 @@ const dishesControllers = new DishesControllers();
 const uploads = multer(uploadsConfig.MULTER);
 
 dishesRoutes.use(ensureAuthenticated);
+
 dishesRoutes.post(
   "/",
-  uploads.single("image_dish"),
   verifyUserAuthorization(["admin"]),
+  uploads.single("image_dish"),
   dishesControllers.create
 );
+
 dishesRoutes.delete(
   "/:id",
   verifyUserAuthorization(["admin"]),
   dishesControllers.delete
 );
+
 dishesRoutes.get(
   "/:id",
   verifyUserAuthorization(["admin", "customer"]),
   dishesControllers.show
 );
+
 dishesRoutes.get(
   "/",
   verifyUserAuthorization(["admin", "customer"]),
   dishesControllers.index
 );
+
 dishesRoutes.put(
   "/:id",
-  uploads.single("image_dish"),
   verifyUserAuthorization(["admin"]),
+  uploads.single("image_dish"),
   dishesControllers.update
 );
 

@@ -8,12 +8,18 @@ const usersRoutes = Router();
 const usersControllers = new UsersControllers();
 
 usersRoutes.post("/", usersControllers.create);
+
 usersRoutes.put(
   "/",
   ensureAuthenticated,
   verifyUserAuthorization(["master", "admin", "customer"]),
   usersControllers.update
 );
-usersRoutes.delete("/", ensureAuthenticated, usersControllers.delete);
+usersRoutes.delete(
+  "/",
+  ensureAuthenticated,
+  verifyUserAuthorization(["customer"]),
+  usersControllers.delete
+);
 
 module.exports = usersRoutes;

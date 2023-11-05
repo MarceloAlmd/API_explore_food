@@ -36,6 +36,12 @@ class OrdersController {
       message: "Status updated",
     });
   }
+
+  async index(request, response) {
+    const requests = await knex("order");
+
+    return response.json(requests);
+  }
 }
 
 module.exports = OrdersController;

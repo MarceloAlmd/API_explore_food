@@ -12,9 +12,9 @@ const ingredientsController = new IngredientsController();
 
 ingredientsRoutes.patch(
   "/:id",
-  upload.single("image_ingredient"),
   ensureAuthenticated,
   verifyUserAuthorization(["admin"]),
+  upload.single("image_ingredient"),
   ingredientsController.update
 );
 

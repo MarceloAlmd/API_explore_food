@@ -7,17 +7,24 @@ const verifyUserAuthorization = require("../middlewares/verifyUserAuthorization"
 const ordersRoutes = Router();
 const ordersController = new OrdersController();
 
+ordersRoutes.use(ensureAuthenticated);
+
 ordersRoutes.post(
   "/",
-  ensureAuthenticated,
   verifyUserAuthorization(["customer"]),
   ordersController.create
 );
+
 ordersRoutes.patch(
   "/:id",
-  ensureAuthenticated,
   verifyUserAuthorization(["admin"]),
   ordersController.update
+);
+
+ordersRoutes.get(
+  "/",
+  verifyUserAuthorization(["admin", "customer"]),
+  ordersController.index
 );
 
 module.exports = ordersRoutes;

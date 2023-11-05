@@ -14,6 +14,7 @@ favoritesRoutes.get(
   verifyUserAuthorization(["customer"]),
   favoritesController.index
 );
+
 favoritesRoutes.patch(
   "/favorites/:id",
   ensureAuthenticated,

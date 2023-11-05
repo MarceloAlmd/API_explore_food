@@ -79,6 +79,22 @@ class UsersControllers {
       user,
     });
   }
+
+  async delete(request, response) {
+    const { id } = request.params;
+
+    const user = await knex("users").where({ id }).first();
+
+    if (user.role === "admin") {
+      throw new AppError("Only master users can delete an admin");
+    }
+
+    await knex("users").where({ id }).delete();
+
+    return response.json({
+      message: "User deleted successfully",
+    });
+  }
 }
 
 module.exports = UsersControllers;

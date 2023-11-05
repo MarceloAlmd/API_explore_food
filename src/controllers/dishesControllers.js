@@ -6,7 +6,7 @@ const uploadConfig = require("../configs/uploads");
 class DishesController {
   async create(request, response) {
     const { name, category, price, description, ingredients } = request.body;
-    const { user_id } = request.params;
+    const user_id = request.user.id;
 
     const dishImg = request.file.filename;
 

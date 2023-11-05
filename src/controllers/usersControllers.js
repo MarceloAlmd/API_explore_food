@@ -28,9 +28,9 @@ class UsersControllers {
 
   async update(request, response) {
     const { name, email, current_password, new_password } = request.body;
-    const { id } = request.params;
+    const user_id = request.user.id;
 
-    const user = await knex("users").where({ id }).first();
+    const user = await knex("users").where({ id: user_id }).first();
 
     if (!user) {
       throw new AppError("User not found");
@@ -67,7 +67,7 @@ class UsersControllers {
       user.password = await hash(new_password, 8);
     }
 
-    await knex("users").where({ id }).update({
+    await knex("users").where({ id: user_id }).update({
       name: user.name,
       email: user.email,
       password: user.password,
@@ -81,15 +81,15 @@ class UsersControllers {
   }
 
   async delete(request, response) {
-    const { id } = request.params;
+    const user_id = request.user.id;
 
-    const user = await knex("users").where({ id }).first();
+    const user = await knex("users").where({ id: user_id }).first();
 
     if (user.role === "admin") {
       throw new AppError("Only master users can delete an admin");
     }
 
-    await knex("users").where({ id }).delete();
+    await knex("users").where({ id: user_id }).delete();
 
     return response.json({
       message: "User deleted successfully",

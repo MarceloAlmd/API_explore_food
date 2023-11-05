@@ -19,12 +19,10 @@ function ensureAuthenticated(request, response, next) {
       role,
     };
 
-    next();
+    return next();
   } catch {
     throw new AppError("Invalid JWT Token");
   }
-
-  return response.json(authHeader);
 }
 
 module.exports = ensureAuthenticated;

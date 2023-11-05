@@ -10,6 +10,10 @@ class SessionsController {
 
     const user = await knex("users").where({ email }).first();
 
+    if (user.role === "disabled") {
+      throw new AppError("Your profile has been deactivated");
+    }
+
     if (!user) {
       throw new AppError("Incorrect email or password");
     }

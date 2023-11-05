@@ -4,5 +4,6 @@ const masterRoutes = Router();
 const masterControllers = new MasterControllers();
 masterRoutes.get("/", masterControllers.index);
 masterRoutes.post("/", masterControllers.create);
+masterRoutes.delete("/:id", masterControllers.delete);
 
 module.exports = masterRoutes;

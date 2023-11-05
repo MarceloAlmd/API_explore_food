@@ -30,6 +30,16 @@ class MasterControllers {
 
     return response.json(users);
   }
+
+  async delete(request, response) {
+    const { id } = request.params;
+
+    await knex("users").where({ id }).delete();
+
+    return response.json({
+      message: "User deleted successfully",
+    });
+  }
 }
 
 module.exports = MasterControllers;

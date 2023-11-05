@@ -40,6 +40,23 @@ class MasterControllers {
       message: "User deleted successfully",
     });
   }
+
+  async update(request, response) {
+    const { id } = request.params;
+    const { role } = request.body;
+
+    const user = await knex("users").where({ id }).first();
+
+    if (!user) {
+      throw new AppError("User not found");
+    }
+
+    user.role = role;
+
+    await knex("users").where({ id }).update(user);
+
+    return response.json(user);
+  }
 }
 
 module.exports = MasterControllers;

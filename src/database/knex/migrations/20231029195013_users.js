@@ -7,7 +7,7 @@ exports.up = (knex) =>
     table.text("password").notNullable();
 
     table
-      .enum("role", ["admin", "customer"], {
+      .enum("role", ["master", "admin", "customer", "disabled"], {
         useNative: true,
         enumName: "roles",
       })

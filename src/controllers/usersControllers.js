@@ -4,7 +4,7 @@ const { hash, compare } = require("bcryptjs");
 
 class UsersControllers {
   async create(request, response) {
-    const { name, email, password, role } = request.body;
+    const { name, email, password, role = "customer" } = request.body;
 
     const user = await knex("users").where({ email }).first();
     if (user) {

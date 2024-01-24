@@ -10,10 +10,6 @@ class SessionsController {
 
     const user = await knex("users").where({ email }).first();
 
-    if (user.role === "disabled") {
-      throw new AppError("Your profile has been deactivated");
-    }
-
     if (!user) {
       throw new AppError("Incorrect email or password");
     }
@@ -23,6 +19,11 @@ class SessionsController {
     if (!checkPassword) {
       throw new AppError("Incorrect email or password");
     }
+
+    if (user.role === "disabled") {
+      throw new AppError("Your profile has been deactivated");
+    }
+
     const { secret, expiresIn } = authConfig.jwt;
     const token = sign({ role: user.role }, secret, {
       subject: String(user.id),

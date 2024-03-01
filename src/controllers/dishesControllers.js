@@ -7,16 +7,11 @@ class DishesController {
   async create(request, response) {
     const { name, category, price, description, ingredients } = request.body;
     const user_id = request.user.id;
-
     const dishImg = request.file.filename;
 
     const diskStorage = new DiskStorage();
 
     await diskStorage.save(dishImg, uploadConfig.DISHES);
-
-    const newIngredients = ingredients
-      .split(",")
-      .map((ingredient) => ingredient.trim());
 
     const checkDishesExists = await knex("dishes").where({ name }).first();
 
@@ -33,7 +28,7 @@ class DishesController {
       image: dishImg,
     });
 
-    const createIngredients = newIngredients.map((ingredient) => {
+    const createIngredients = ingredients.map((ingredient) => {
       return {
         name: ingredient,
         dishes_id,
@@ -41,11 +36,16 @@ class DishesController {
       };
     });
 
-    await knex("ingredients").insert(createIngredients);
+    const ingredientIds = await knex("ingredients")
+      .insert(createIngredients)
+      .returning("id");
+
+    console.log("ingredientIds", ingredientIds);
 
     return response.status(201).json({
       status: "success",
       message: "success when creating a dish",
+      ingredientIds,
     });
   }
 
@@ -117,10 +117,6 @@ class DishesController {
 
     await diskStorage.save(updateDishImg, uploadConfig.DISHES);
 
-    const transformIngredients = ingredients
-      .split(",")
-      .map((ingredient) => ingredient.trim());
-
     const dishedUpdatedExists = await knex("dishes").where({ name }).first();
 
     if (dishedUpdatedExists && dishedUpdatedExists.id !== dish.id) {
@@ -142,7 +138,7 @@ class DishesController {
       updated_at: knex.fn.now(),
     });
 
-    const ingredientsUpdated = transformIngredients.map((ingredient) => {
+    const ingredientsUpdated = ingredients.map((ingredient) => {
       return {
         dishes_id: id,
         name: ingredient,
@@ -152,11 +148,12 @@ class DishesController {
 
     await knex("ingredients").where({ dishes_id: id }).delete();
 
-    await knex("ingredients")
+    const ingredientsIdUpdate = await knex("ingredients")
       .where({ dishes_id: id })
-      .insert(ingredientsUpdated);
+      .insert(ingredientsUpdated)
+      .returning("id");
 
-    return response.json(dish);
+    return response.json({ dish, ingredientsIdUpdate });
   }
 }
 

@@ -14,8 +14,8 @@ app.use(express.json());
 app.use(routes);
 sqliteConnection();
 
-app.use("/files/dish", express.static(uploadConfig.DISHES));
 app.use("/files/ingredient", express.static(uploadConfig.INGREDIENTS));
+app.use("/files/dish", express.static(uploadConfig.DISHES));
 
 app.use((error, request, response, next) =>
   serverError(error, request, response, next)

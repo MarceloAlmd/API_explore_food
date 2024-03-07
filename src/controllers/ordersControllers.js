@@ -42,6 +42,13 @@ class OrdersController {
 
     return response.json(requests);
   }
+
+  async show(request, response) {
+    const { id } = request.params;
+    const requestDetails = await knex("order").where({ id });
+
+    return response.json(requestDetails);
+  }
 }
 
 module.exports = OrdersController;

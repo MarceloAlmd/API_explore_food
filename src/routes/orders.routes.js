@@ -26,5 +26,10 @@ ordersRoutes.get(
   verifyUserAuthorization(["admin", "customer"]),
   ordersController.index
 );
+ordersRoutes.get(
+  "/:id",
+  verifyUserAuthorization(["customer"]),
+  ordersController.show
+);
 
 module.exports = ordersRoutes;

@@ -1,4 +1,3 @@
-
 <h1> Api Explorer Food</h1>
 <hr/>
 <h2>Guia de Uso</h2>
@@ -34,7 +33,8 @@
 ```plaintext
 AUTH_SECRET=c58406e7584da96d7646a4fc7813cbe0
 PORT=3333
-````
+```
+
 <h3>Uso</h3>
 <ol>
     <li>Inicie o servidor:
@@ -48,7 +48,7 @@ PORT=3333
 ```plaintext
 Email: customer@email.com (cliente) ou admin@email.com (administrador)
 Password: 123456 para ambos os emails
-````
+```
 
 <h3>Endpoints Disponíveis:</h3>
 <h3>Users</h3>
@@ -89,6 +89,7 @@ Password: 123456 para ambos os emails
 <h3>Order</h3>
 <ul>
   <li><strong>GET localhost:3333/order</strong>: Lista todos os pratos pedidos no restaurante.</li>
+  <li><strong>GET localhost:3333/order/:id</strong>: Retorna o detalhe de um pedido.</li>
   <li><strong>PATCH localhost:3333/order/:id</strong>: Atualiza o campo "status" para preparing ou delivered.</li>
   <li><strong>POST localhost:3333/order</strong>: Cria um novo pedido na tabela.</li>
 </ul>
@@ -109,5 +110,3 @@ Password: 123456 para ambos os emails
 </ul>
 
 <hr/>
-
-

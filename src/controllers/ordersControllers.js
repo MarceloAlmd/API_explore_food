@@ -38,7 +38,8 @@ class OrdersController {
   }
 
   async index(request, response) {
-    const requests = await knex("order");
+    const user_id = request.user.id;
+    const requests = await knex("order").where({ user_id });
 
     return response.json(requests);
   }

@@ -6,6 +6,10 @@ const TMP_FOLDER = path.resolve(__dirname, "..", "..", "tmp");
 const DISHES = path.resolve(TMP_FOLDER, "dishes");
 const INGREDIENTS = path.resolve(TMP_FOLDER, "ingredients");
 
+console.log("TMP_FOLDER", TMP_FOLDER);
+console.log("DISHES", DISHES);
+console.log("INGREDIENTS", INGREDIENTS);
+
 const MULTER = {
   storage: multer.diskStorage({
     destination: TMP_FOLDER,

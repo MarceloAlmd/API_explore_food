@@ -3,12 +3,8 @@ const crypto = require("crypto");
 const multer = require("multer");
 
 const TMP_FOLDER = path.resolve(__dirname, "..", "..", "tmp");
-const DISHES = path.resolve(TMP_FOLDER, "DishesIMG");
-const INGREDIENTS = path.resolve(TMP_FOLDER, "IngredientsIMG");
-
-console.log("TMP_FOLDER", TMP_FOLDER);
-console.log("DISHES", DISHES);
-console.log("INGREDIENTS", INGREDIENTS);
+const DISHES = path.resolve(TMP_FOLDER, "dishes");
+const INGREDIENTS = path.resolve(TMP_FOLDER, "ingredients");
 
 const MULTER = {
   storage: multer.diskStorage({

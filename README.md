@@ -16,7 +16,7 @@
 <h3>Instalação</h3>
 <ol>
     <li>Clone este repositório em sua máquina local:
-        <li>git clone: <code>git@github.com:MarceloAlmd/API_explore_food.git</code></li>
+        <li>git clone: <code>git@github.com:MarceloAlmd/API_explorer_food.git</code></li>
     <li>Acesse o diretório do projeto:
         <code>cd API_explorer_food</code></li>
     <li>Instale as dependências do projeto:

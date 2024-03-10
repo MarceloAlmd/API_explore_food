@@ -50,6 +50,11 @@ Email: customer@email.com (cliente) ou admin@email.com (administrador)
 Password: 123456 para ambos os emails
 ```
 
+<h3>Teste Online (DEPLOY):</h3>
+<strong>Front-End:</strong> https://web-explorer-food.netlify.app/
+
+
+
 <h3>Endpoints Disponíveis:</h3>
 <h3>Users</h3>
 <ul>

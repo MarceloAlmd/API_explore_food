@@ -18,7 +18,7 @@
     <li>Clone este repositório em sua máquina local:
         <li>git clone: <code>git@github.com:MarceloAlmd/API_explore_food.git</code></li>
     <li>Acesse o diretório do projeto:
-        <code>cd API_explore_food</code></li>
+        <code>cd API_explorer_food</code></li>
     <li>Instale as dependências do projeto:
         <code>npm install</code></li>
 </ol>

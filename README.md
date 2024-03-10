@@ -16,9 +16,9 @@
 <h3>Instalação</h3>
 <ol>
     <li>Clone este repositório em sua máquina local:
-        <li>git clone: <code>git@github.com:MarceloAlmd/API_explore_food.git</code></li>
+        <li>git clone: <code>git@github.com:MarceloAlmd/API_explorer_food.git</code></li>
     <li>Acesse o diretório do projeto:
-        <code>cd API_explore_food</code></li>
+        <code>cd API_explorer_food</code></li>
     <li>Instale as dependências do projeto:
         <code>npm install</code></li>
 </ol>
@@ -49,6 +49,11 @@ PORT=3333
 Email: customer@email.com (cliente) ou admin@email.com (administrador)
 Password: 123456 para ambos os emails
 ```
+
+<h3>Teste Online (DEPLOY):</h3>
+<strong>Front-End:</strong> https://web-explorer-food.netlify.app/
+
+
 
 <h3>Endpoints Disponíveis:</h3>
 <h3>Users</h3>

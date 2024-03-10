@@ -38,8 +38,16 @@ class OrdersController {
   }
 
   async index(request, response) {
+    let requests;
     const user_id = request.user.id;
-    const requests = await knex("order").where({ user_id });
+
+    const user = await knex("users").where({ id: user_id }).first();
+
+    if (user.role === "admin") {
+      requests = await knex("order");
+    } else {
+      requests = await knex("order").where({ user_id });
+    }
 
     return response.json(requests);
   }

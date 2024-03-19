@@ -44,9 +44,11 @@ class OrdersController {
     const user = await knex("users").where({ id: user_id }).first();
 
     if (user.role === "admin") {
-      requests = await knex("order");
+      requests = await knex("order").orderBy("created_at", "desc");
     } else {
-      requests = await knex("order").where({ user_id });
+      requests = await knex("order")
+        .where({ user_id })
+        .orderBy("created_at", "desc");
     }
 
     return response.json(requests);
